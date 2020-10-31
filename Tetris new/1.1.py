@@ -1,7 +1,7 @@
 
 import tkinter as tk
 from tkinter import messagebox
-import random
+
 
 cell_size = 30
 C = 12
@@ -127,7 +127,6 @@ def game_loop():
     global current_block
     if current_block is None:
         new_block = generate_new_block()
-        # The newly generated Tetris must be drawn at the generated location
         draw_block_move(canvas, new_block)
         current_block = new_block
         if not check_move(current_block, [0, 0]):
@@ -138,7 +137,6 @@ def game_loop():
         if check_move(current_block, [0, 1]):
             draw_block_move(canvas, current_block, [0, 1])
         else:
-            # Unable to move, add to block_list
             save_block_to_list(current_block)
             current_block = None
 
