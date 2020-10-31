@@ -49,11 +49,8 @@ def draw_board(canvas,block_list):
                 draw_cell_by_cr(canvas,ci,ri,SHAPESCOLOR[cell_type])
             else:
                 draw_cell_by_cr(canvas,ci,ri)
-def check_row_complete(row):
-    for cell in row:
-        if cell=='':
-            return False
-    return True
+
+
 
 def draw_cells(canvas, c, r, cell_list, color="#CCCCCC"):
 
@@ -64,6 +61,12 @@ def draw_cells(canvas, c, r, cell_list, color="#CCCCCC"):
 
         if 0 <= c < C and 0 <= r < R:
             draw_cell_by_cr(canvas, ci, ri, color)
+
+def check_row_complete(row):
+    for cell in row:
+        if cell=='':
+            return False
+    return True
 
 score = 0
 window.title("SCORES:%s"% score)
@@ -97,6 +100,7 @@ block_list=[]
 for i in range(R):
     i_row=[''for j in range(C)]
     block_list.append((i_row))
+
 draw_board(canvas,block_list)
 
 def draw_block_move(canvas, block, direction=[0, 0]):
