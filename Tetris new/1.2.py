@@ -29,7 +29,6 @@ SHAPESCOLOR = {
     "Z": "Cyan",
 }
 def draw_cell_by_cr(canvas, c, r, color="#CCCCCC"):
-
     x0 = c * cell_size
     y0 = r * cell_size
     x1 = c * cell_size + cell_size
@@ -46,12 +45,10 @@ def draw_board(canvas, block_list):
                 draw_cell_by_cr(canvas, ci, ri)
 
 def draw_cells(canvas, c, r, cell_list, color="#CCCCCC"):
-
     for cell in cell_list:
         cell_c, cell_r = cell
         ci = cell_c + c
         ri = cell_r + r
-
         if 0 <= c < C and 0 <= r < R:
             draw_cell_by_cr(canvas, ci, ri, color)
 
@@ -67,23 +64,17 @@ for i in range(R):
 draw_board(canvas, block_list)
 
 def draw_block_move(canvas, block, direction=[0, 0]):
-
     shape_type = block['kind']
     c, r = block['cr']
     cell_list = block['cell_list']
-
     draw_cells(canvas, c, r, cell_list)
-
     dc, dr = direction
     new_c, new_r = c+dc, r+dr
     block['cr'] = [new_c, new_r]
-
     draw_cells(canvas, new_c, new_r, cell_list, SHAPESCOLOR[shape_type])
 
 def generate_new_block():
-
     kind = random.choice(list(SHAPES.keys()))
-
     cr = [C // 2, 0]
     new_block = {
         'kind': kind,
@@ -96,7 +87,6 @@ def generate_new_block():
 def check_move(block, direction=[0, 0]):
     cc, cr = block['cr']
     cell_list = block['cell_list']
-
     for cell in cell_list:
         cell_c, cell_r = cell
         c = cell_c + cc + direction[0]
@@ -105,15 +95,12 @@ def check_move(block, direction=[0, 0]):
             return False
         if r >= 0 and block_list[r][c]:
             return False
-
     return True
-
 
 def check_row_complete(row):
     for cell in row:
         if cell=='':
             return False
-
     return True
 
 score = 0
@@ -135,7 +122,6 @@ def check_and_clear():
 
     if has_complete_row:
         draw_board(canvas, block_list)
-
         window.title("SCORES: %s" % score)
 
 def save_block_to_list(block):
@@ -157,7 +143,6 @@ def horizontal_move_block(event):
         direction = [1, 0]
     else:
         return
-
     global current_block
     if current_block is not None and check_move(current_block, direction):
         draw_block_move(canvas, current_block, direction)
