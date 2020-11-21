@@ -65,17 +65,17 @@ draw_board(canvas, block_list)
 
 def draw_block_move(canvas, block, direction=[0, 0]):
     shape_type = block['kind']
-    c, r = block['cr']
-    cell_list = block['cell_list']
-    draw_cells(canvas, c, r, cell_list)
+    c,r=block['cr']
+    cell_list=block['cell_list']
+    draw_cells(canvas,c,r,cell_list)
     dc, dr = direction
-    new_c, new_r = c+dc, r+dr
-    block['cr'] = [new_c, new_r]
-    draw_cells(canvas, new_c, new_r, cell_list, SHAPESCOLOR[shape_type])
+    new_c,new_r=c+dc,r+dr
+    block['cr']=[new_c, new_r]
+    draw_cells(canvas,new_c,new_r,cell_list,SHAPESCOLOR[shape_type])
 
 def generate_new_block():
-    kind = random.choice(list(SHAPES.keys()))
-    cr = [C // 2, 0]
+    kind=random.choice(list(SHAPES.keys()))
+    cr=[C // 2, 0]
     new_block = {
         'kind': kind,
         'cell_list': SHAPES[kind],
@@ -85,7 +85,7 @@ def generate_new_block():
     return new_block
 
 def check_move(block, direction=[0, 0]):
-    cc, cr = block['cr']
+    cc,cr = block['cr']
     cell_list = block['cell_list']
     for cell in cell_list:
         cell_c, cell_r = cell
@@ -107,16 +107,16 @@ score = 0
 window.title("SCORES: %s" % score)
 
 def check_and_clear():
-    has_complete_row = False
+    has_complete_row=False
     for ri in range(len(block_list)):
         if check_row_complete(block_list[ri]):
-            has_complete_row = True
+            has_complete_row=True
             if ri > 0:
                 for cur_ri in range(ri, 0, -1):
-                    block_list[cur_ri] = block_list[cur_ri-1][:]
-                block_list[0] = ['' for j in range(C)]
+                    block_list[cur_ri]=block_list[cur_ri-1][:]
+                block_list[0]=[''for j in range(C)]
             else:
-                block_list[ri] = ['' for j in range(C)]
+                block_list[ri]=[''for j in range(C)]
             global score
             score += 10
 
@@ -125,51 +125,51 @@ def check_and_clear():
         window.title("SCORES: %s" % score)
 
 def save_block_to_list(block):
-    shape_type = block['kind']
-    cc, cr = block['cr']
-    cell_list = block['cell_list']
+    shape_type=block['kind']
+    cc,cr=block['cr']
+    cell_list=block['cell_list']
 
     for cell in cell_list:
-        cell_c, cell_r = cell
-        c = cell_c + cc
-        r = cell_r + cr
-        block_list[r][c] = shape_type
+        cell_c,cell_r=cell
+        c=cell_c+cc
+        r=cell_r+cr
+        block_list[r][c]=shape_type
 
 def horizontal_move_block(event):
-    direction = [0, 0]
+    direction=[0, 0]
     if event.keysym == 'Left':
-        direction = [-1, 0]
+        direction=[-1, 0]
     elif event.keysym == 'Right':
-        direction = [1, 0]
+        direction=[1, 0]
     else:
         return
     global current_block
-    if current_block is not None and check_move(current_block, direction):
-        draw_block_move(canvas, current_block, direction)
+    if current_block is not None and check_move(current_block,direction):
+        draw_block_move(canvas,current_block,direction)
 
 def rotate_block(event):
     global current_block
     if current_block is None:
         return
 
-    cell_list = current_block['cell_list']
-    rotate_list = []
+    cell_list=current_block['cell_list']
+    rotate_list=[]
     for cell in cell_list:
-        cell_c, cell_r = cell
-        rotate_cell = [cell_r, -cell_c]
+        cell_c,cell_r = cell
+        rotate_cell=[cell_r, -cell_c]
         rotate_list.append(rotate_cell)
 
     block_after_rotate = {
-        'kind': current_block['kind'],
-        'cell_list': rotate_list,
-        'cr': current_block['cr']
+        'kind':current_block['kind'],
+        'cell_list':rotate_list,
+        'cr':current_block['cr']
     }
 
     if check_move(block_after_rotate):
-        cc, cr= current_block['cr']
-        draw_cells(canvas, cc, cr, current_block['cell_list'])
-        draw_cells(canvas, cc, cr, rotate_list,SHAPESCOLOR[current_block['kind']])
-        current_block = block_after_rotate
+        cc,cr=current_block['cr']
+        draw_cells(canvas,cc,cr,current_block['cell_list'])
+        draw_cells(canvas,cc,cr,rotate_list,SHAPESCOLOR[current_block['kind']])
+        current_block=block_after_rotate
 
 def land(event):
     global current_block
@@ -177,11 +177,11 @@ def land(event):
         return
 
     cell_list = current_block['cell_list']
-    cc, cr = current_block['cr']
+    cc,cr=current_block['cr']
     min_height = R
     for cell in cell_list:
-        cell_c, cell_r = cell
-        c, r = cell_c + cc, cell_r + cr
+        cell_c,cell_r=cell
+        c,r=cell_c+cc,cell_r+cr
         if r>=0 and block_list[r][c]:
             return
         h = 0
@@ -194,8 +194,8 @@ def land(event):
             min_height = h
 
     down = [0, min_height]
-    if check_move(current_block, down):
-        draw_block_move(canvas, current_block, down)
+    if check_move(current_block,down):
+        draw_block_move(canvas,current_block, down)
 
 def game_loop():
     window.update()
